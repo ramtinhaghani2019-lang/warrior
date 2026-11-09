@@ -1,0 +1,16 @@
+{
+  "name": "محراب بیداری جنگجو",
+  "short_name": "محراب بیداری",
+  "description": "ژورنال تاریک‌کاری و بیداری آرک‌تایپ قدرت",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#8b0000",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
