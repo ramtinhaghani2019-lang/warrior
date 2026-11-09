@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head><link rel="manifest" href="manifest.json">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محراب بیداری | ژورنال تاریک‌کاری</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <style>
+        :root {
+            --bg-color: #050505;
+            --glass-bg: rgba(20, 20, 20, 0.6);
+            --glass-border: rgba(212, 175, 55, 0.2);
+            --gold: #d4af37;
+            --gold-dim: #997a00;
+            --red-blood: #8b0000;
+            --text-main: #e0e0e0;
+            --text-muted: #888888;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            background-image: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(212, 175, 55, 0.05);
+            width: 100%;
+            max-width: 650px;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        h1, h2 {
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        h1 { font-size: 1.8rem; letter-spacing: 1px; }
+        h2 { font-size: 1.3rem; color: var(--red-blood); }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        #splash-screen { text-align: center; }
+
+        .rules-list {
+            text-align: right;
+            margin: 30px 0;
+            list-style: none;
+        }
+
+        .rules-list li {
+            margin-bottom: 15px;
+            padding-right: 25px;
+            position: relative;
+        }
+
+        .rules-list li::before {
+            content: "✦";
+            position: absolute;
+            right: 0;
+            color: var(--gold);
+        }
+
+        .btn-gold {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-gold:hover {
+            background: var(--gold);
+            color: #000;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        #dashboard {
+            display: none;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .audio-player {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .audio-player span { color: var(--gold); font-size: 0.85rem; }
+
+        .prompt-box {
+            background: rgba(139, 0, 0, 0.1);
+            border-right: 3px solid var(--red-blood);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 220px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #333;
+            color: var(--text-main);
+            padding: 15px;
+            border-radius: 8px;
+            resize: none;
+            font-size: 1rem;
+            line-height: 1.8;
+            transition: border 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--gold-dim);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+        }
+
+        .mantra-box {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--gold);
+            font-style: italic;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            padding: 10px;
+        }
+
+        .nav-btn:hover { color: var(--gold); }
+
+        .status {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #4caf50;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-panel">
+        
+        <!-- Splash Screen -->
+        <div id="splash-screen">
+            <h1>محراب بیداری جنگجو</h1>
+            <p>اینجا فضای ایزوله و شخصی شماست. هیچکس جز خودتان به این کلمات دسترسی نخواهد داشت.</p>
+            
+            <ul class="rules-list">
+                <li><strong>صداقت بی‌رحمانه:</strong> خودت را سانسور نکن. خشم، نفرت و ضعف‌هایت را دقیقاً با همان کلمات گزنده بنویس.</li>
+                <li><strong>استمرار ارتعاشی:</strong> این ژورنال باید هر شب، دقیقاً قبل از خواب پر شود.</li>
+                <li><strong>ایزوله بودن:</strong> محتوای این دفترچه قطعه‌ای از کالبد اثیری توست و فقط در مرورگر خودت ذخیره می‌شود.</li>
+            </ul>
+
+            <button class="btn-gold" onclick="enterShrine()">ورود به محراب تاریک</button>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboard">
+            <h1 id="day-title">روز اول</h1>
+            <h2 id="theme-title">رویارویی با ضعف</h2>
+
+            <div class="audio-player">
+                <span>(مراقبه‌ی هدایت‌شونده - فرکانس بیداری)</span>
+                <br>
+                <audio controls style="height: 30px; margin-top: 10px; width: 100%;">
+                    <source src="your-audio-file.mp3" type="audio/mpeg">
+                    مرورگر شما از این فایل پشتیبانی نمی‌کند.
+                </audio>
+            </div>
+
+            <div class="prompt-box">
+                <p id="prompt-text">بارگذاری سوال...</p>
+            </div>
+
+            <textarea id="journal-entry" placeholder="بدون نقاب و تعارف بنویس..." oninput="autoSave()"></textarea>
+            
+            <div class="status" id="save-status">✓ نوشته‌های شما به صورت امن ذخیره شد</div>
+
+            <div class="mantra-box" id="mantra-text">بارگذاری اقدام...</div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">⟵ روز قبل</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">روز بعد ⟶</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // دیتابیس کامل 21 روزه
+        const journalData = [
+            // فاز اول: پاکسازی و تخلیه
+            { day: "روز اول", theme: "رویارویی با ضعف", prompt: "چه کسی یا چه اتفاقی در گذشته بیشترین احساس حقارت یا ضعف را به تو داده است؟ آن صحنه را بدون هیچ سانسوری بنویس و تمام خشم خود را روی کلمات پیاده کن.", mantra: "اقدام: ۱۵ دقیقه گوش دادن به مراقبه صوتی + دوش آب نمک اپسوم" },
+            { day: "روز دوم", theme: "کالبدشکافی ترس", prompt: "بزرگترین ترسی که تا امروز مانع اقتدار و تصمیم‌گیری تو شده چیست؟ اگر این ترس فردا به واقعیت بپیوندد، بدترین اتفاق ممکن چه خواهد بود؟", mantra: "اقدام: نوشتن ترس روی یک تکه کاغذ، خط زدن آن با قلم قرمز و پاره کردن کاغذ" },
+            { day: "روز سوم", theme: "قطع بندهای اثیری", prompt: "امروز چه انرژی منفی یا توقع بی‌جایی را از اطرافیانت دریافت کردی؟ چگونه مرز هاله خود را به روی آن بستی؟", mantra: "مانترا: من دروازه‌های انرژی‌ام را به روی فرکانس‌های سمی مهر و موم می‌کنم." },
+            { day: "روز چهارم", theme: "ریشه‌یابی شرم", prompt: "چه رازی در درون توست که فکر می‌کنی اگر دیگران بدانند اعتبارت نابود می‌شود؟ چرا به دیگران قدرت قضاوت داد‌ه‌ای؟", mantra: "اقدام: نگاه کردن در آینه به مدت ۳ دقیقه و تکرار: من از هیچ بخش تاریک خودم شرمنده نیستم." },
+            { day: "روز پنجم", theme: "توهم کنترل", prompt: "چه آدم یا شرایطی را به زور در زندگی‌ات نگه داشته‌ای که باید رها شود؟ چه ترسی مانع رها کردن آن شده است؟", mantra: "مانترا: من آنچه را که به من قدرت نمی‌دهد، بدون تردید رها می‌کنم." },
+            { day: "روز ششم", theme: "پاکسازی کالبد فیزیکی", prompt: "بدن فیزیکی تو امروز چه دردی را به جای تو تحمل می‌کند؟ کجای بدنت سنگین است؟ درد تو ناشی از کدام حرفِ ناگفته است؟", mantra: "اقدام: تمرکز روی نقطه دردناک بدن در حین مراقبه و تجسم خروج دود سیاه از آن نقطه." },
+            { day: "روز هفتم", theme: "مهر و موم ریشه", prompt: "сеامروز اولین قدم برای بستن راه نفوذ دیگران به انرژی تو چیست؟ قانون جدید تو برای محافظت از خلوتت چیست؟", mantra: "مانترا: ریشه من در زمین مستحکم است. هیچ بادی مرا نمی‌لرزاند." },
+            
+            // فاز دوم: کوره اراده
+            { day: "روز هشتم", theme: "بیداری خشم مقدس", prompt: "خشمی که سال‌ها به خاطر «خوب به نظر رسیدن» سرکوب کرده‌ای متعلق به کیست؟ امروز به این نیمه تاریک اجازه بده روی کاغذ فریاد بکشد.", mantra: "اقدام: تمرکز دم و بازدم روی خورشیدِ چاکرای ناف (سولار پلکسوس) به مدت ۱۰ دقیقه." },
+            { day: "روز نهم", theme: "معماری مرزها", prompt: "در کدام بخش از زندگی‌ات تا امروز اجازه داده‌ای دیگران به حریمت تجاوز کنند؟ خط قرمز غیرقابل‌نفوذ تو برای این آدم‌ها چیست؟", mantra: "اقدام عملی: گفتن کلمه «نه» به یک درخواست غیرمنطقی در طول روز فردا." },
+            { day: "روز دهم", theme: "بازیابی اقتدار", prompt: "چه توانایی‌ها، غرور و استعدادهایی را به خاطر تایید دیگران یا ترس از قضاوت پنهان کرده بودی؟", mantra: "مانترا: من برای درخشیدن، از هیچکس اجازه نمی‌گیرم." },
+            { day: "روز یازدهم", theme: "صدای خاموش", prompt: "کجا باید فریاد می‌زدی اما سکوت کردی؟ امروز آن کلماتِ سرکوب‌شده را اینجا بنویس و خودت را از بار آن‌ها تخلیه کن.", mantra: "اقدام: ایستادن با قامتی کاملاً صاف، شانه‌های رو به عقب و تنفس عمیق از سینه." },
+            { day: "روز دوازدهم", theme: "قربانی‌کُشی", prompt: "در کدام بخش از زندگی هنوز نقش قربانی را بازی می‌کنی تا ترحم بخری یا از مسئولیت فرار کنی؟ چه زمانی این نقش را تمام می‌کنی؟", mantra: "مانترا: من خالقِ شرایطم هستم، نه معلولِ آن." },
+            { day: "روز سیزدهم", theme: "شمشیر اراده", prompt: "اگر هیچ ترسی از شکست نداشتی و مطمئن بودی پیروز می‌شوی، امروز چه تصمیم بزرگی می‌گرفتی؟", mantra: "اقدام: نوشتن تصمیم بزرگ در ژورنال و تعیین اولین قدمِ اجرایی برای فردا." },
+            { day: "روز چهاردهم", theme: "خورشید درونی", prompt: "گرمای اراده‌ات را در ناف خود حس کن. امروز چه کسی یا چه فکری را برای همیشه از مدارت خارج کردی؟", mantra: "مانترا: اراده‌ی من، شمشیر بُرنده‌ی من است." },
+
+            // فاز سوم: تثبیت سپر
+            { day: "روز پانزدهم", theme: "زره طلایی", prompt: "در کجای بدن فیزیکی‌ات هنوز احساس ضعف می‌کنی؟ وقتی زره نوری و طلایی خود را می‌پوشی، چه تغییری در آن نقطه حس می‌کنی؟", mantra: "اقدام: تجسم زره طلایی درخشان دور تا دور هاله در تمام طول روز." },
+            { day: "روز شانزدهم", theme: "ادغام با سایه", prompt: "کدام بخش از نیمه تاریک وجودت (بی‌رحمی، سردی، قاطعیت) را امروز به عنوان قوی‌ترین ابزار دفاعی‌ات پذیرفتی و از آن شرمنده نیستی؟", mantra: "مانترا: نور و تاریکیِ من، در خدمتِ اقتدارِ من هستند." },
+            { day: "روز هفدهم", theme: "بی‌رحمی مقدس", prompt: "برای محافظت از انرژی و زمانت، امروز باید با چه کسی یا چه عادتی به صورت مقدس و بدون عذاب وجدان بی‌رحم باشی؟", mantra: "اقدام: قطع یک عادت یا پاسخ ندادن به پیامی که انرژی تو را تخلیه می‌کند." },
+            { day: "روز هجدهم", theme: "استقلال ارتعاشی", prompt: "چرا هنوز برای تایید شدن، به نگاه دیگران وابسته‌ای؟ چطور می‌توانی به تنهایی، منبعِ قدرت و تاییدِ خودت باشی؟", mantra: "مانترا: من نیازی به تاییدِ فرکانس‌های پایین‌تر از خودم ندارم." },
+            { day: "روز نوزدهم", theme: "سپر آینه‌ای", prompt: "امروز چه انرژی سمی یا قضاوت نابجایی به سمتت پرتاب شد؟ چگونه با سپر آینه‌ای، آن را مستقیماً به فرستنده‌اش بازگرداندی؟", mantra: "مانترا: هر انرژی که به قصد تخریب من بیاید، با قدرت مضاعف به مبدا خود بازمی‌گردد." },
+            { day: "روز بیستم", theme: "تاج‌گذاری جنگجو", prompt: "جنگجوی بیدار شده در تو، چه قانونی را برای همیشه در زندگی‌ات وضع می‌کند که هیچکس حق عبور از آن را ندارد؟", mantra: "اقدام: خرید یا به همراه داشتن یک نماد فیزیکی (مثل یک سنگ مشکی یا انگشتر) به عنوان نشانِ قدرت." },
+            { day: "روز بیست و یکم", theme: "عهدنامه ابدی", prompt: "اکنون که سپر تو کامل و اراده‌ات بیدار شده است، آخرین تعهد تو به کالبد و روح خودت چیست؟ این عهدنامه را بنویس و مهر کن.", mantra: "مانترا: من بیدار شدم. من سپر غیرقابل‌نفوذم. من قدرت مطلقم." }
+        ];
+
+        let currentDay = 0;
+        let saveTimeout;
+
+        function enterShrine() {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            
+            // بررسی اینکه آیا کاربر قبلاً روزی را ذخیره کرده است؟
+            const savedDay = localStorage.getItem('warrior_current_day');
+            if (savedDay !== null) {
+                currentDay = parseInt(savedDay);
+            }
+            loadDay(currentDay);
+        }
+
+        function loadDay(index) {
+            document.getElementById('day-title').innerText = journalData[index].day;
+            document.getElementById('theme-title').innerText = journalData[index].theme;
+            document.getElementById('prompt-text').innerText = journalData[index].prompt;
+            document.getElementById('mantra-text').innerText = journalData[index].mantra;
+
+            document.getElementById('prev-btn').style.visibility = index === 0 ? 'hidden' : 'visible';
+            
+            if (index === journalData.length - 1) {
+                document.getElementById('next-btn').style.visibility = 'hidden';
+            } else {
+                document.getElementById('next-btn').style.visibility = 'visible';
+            }
+
+            const savedText = localStorage.getItem('warrior_day_' + index) || '';
+            document.getElementById('journal-entry').value = savedText;
+            
+            // ذخیره آخرین روز دیده شده
+            localStorage.setItem('warrior_current_day', index);
+        }
+
+        function changeDay(direction) {
+            currentDay += direction;
+            if (currentDay < 0) currentDay = 0;
+            if (currentDay >= journalData.length) currentDay = journalData.length - 1;
+            loadDay(currentDay);
+        }
+
+        function autoSave() {
+            clearTimeout(saveTimeout);
+            const text = document.getElementById('journal-entry').value;
+            
+            localStorage.setItem('warrior_day_' + currentDay, text);
+
+            saveTimeout = setTimeout(() => {
+                const status = document.getElementById('save-status');
+                status.style.opacity = '1';
+                setTimeout(() => {
+                    status.style.opacity = '0';
+                }, 2000);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
